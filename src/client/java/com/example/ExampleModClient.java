@@ -1,6 +1,11 @@
 package com.example;
 
 import net.fabricmc.api.ClientModInitializer;
+import java.util.Random;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.client.MinecraftClient;
+import net.fabricmc.api.Environment;
 
 public class ExampleModClient implements ClientModInitializer {
 	@Override
