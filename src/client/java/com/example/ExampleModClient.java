@@ -9,9 +9,8 @@ import net.fabricmc.api.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+@Environment(EnvType.CLIENT)
 public class ExampleModClient implements ClientModInitializer {
-	@Override
 public static final Logger LOGGER = LoggerFactory.getLogger("nojumpdelay");
 	int ticks = 0;
 
