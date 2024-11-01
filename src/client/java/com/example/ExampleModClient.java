@@ -11,25 +11,23 @@ import org.slf4j.LoggerFactory;
 
 @Environment(EnvType.CLIENT)
 public class ExampleModClient implements ClientModInitializer {
-public static final Logger LOGGER = LoggerFactory.getLogger("nojumpdelay");
-	int ticks = 0;
+    public static final Logger LOGGER = LoggerFactory.getLogger("nojumpdelay");
+    private static final Random RANDOM = new Random();
+    private int ticks = 0;
 
-	public void onInitializeClient() {
-		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
-			Random random = new Random();
-			++this.ticks;
-			MinecraftClient mc = MinecraftClient.getInstance();
-			if (mc.player != null) {
-				int randomNumber = random.nextInt(3) + 1;
-				if (this.ticks > randomNumber) {
-					if (mc != null && mc.player != null && client.player != null && mc.options.jumpKey.isPressed() && mc.player.isOnGround() && !mc.player.isCreative() && !mc.player.isSpectator()) {
-						mc.player.jump();
-					}
+    @Override
+    public void onInitializeClient() {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.player == null || !client.player.isOnGround()) {
+                return;
+            }
 
-					this.ticks = 0;
-				}
-			}
+            ticks++;
 
-		});
-	}
+            if (ticks > RANDOM.nextInt(3) + 1 && client.options.jumpKey.isPressed()) {
+                client.player.jump();
+                ticks = 0;
+            }
+        });
+    }
 }
